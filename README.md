@@ -1,3 +1,5 @@
+![Banner](banner.svg)
+
 # http-headers-check
 
 Audit HTTP response headers for security, caching, and best practices. Zero dependencies, pure Node.js.
