@@ -1,64 +1,66 @@
-<div align="center">
+![http-headers-check — Nicholas Ashkar repository collection](assets/nicholas-ashkar/banner.png)
 
 # http-headers-check
 
-**Audit any URL's HTTP response headers for security posture, caching, and CORS — A–F graded, zero dependencies.**
+Review an HTTP response header set with a compact security grade.
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue?labelColor=0B0A09)](LICENSE)
-[![Zero Dependencies](https://img.shields.io/badge/dependencies-0-brightgreen?labelColor=0B0A09)](package.json)
-[![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen?labelColor=0B0A09)](package.json)
 
-</div>
-
-## Install
-
-```bash
-npx github:NickCirv/http-headers-check https://example.com
-```
-
-Or install globally:
-
-```bash
-npm install -g github:NickCirv/http-headers-check
-hcheck https://example.com
-```
-
-## Usage
-
-```bash
-hcheck <url> [options]
-hcheck compare <url1> <url2>
-```
-
-| Flag | Description |
-|------|-------------|
-| `--json` | Output results as JSON |
-| `--follow` | Follow and display redirect chain |
-| `--verbose, -v` | Full header values + fix recommendations |
-| `--help, -h` | Show help |
-
-**Examples**
-
-```bash
-# Security audit with grade
-hcheck https://example.com
-
-# Verbose — full values + recommendations
-hcheck https://example.com --verbose
-
-# JSON output (pipe-friendly)
-hcheck https://example.com --json | jq '.security.grade'
-
-# Follow redirect chain
-hcheck https://example.com --follow
-
-# Side-by-side comparison
-hcheck compare https://site-a.com https://site-b.com
-```
+<a id="usage"></a>
 
 ## What it does
 
-Fetches HTTP response headers via a `HEAD` request and audits them across three categories: security (7 headers scored and graded A–F), caching (Cache-Control, ETag, Last-Modified, Vary, etc.), and CORS. The `--follow` flag traces redirect chains hop by hop; `--compare` diffs two URLs side by side. Color-coded terminal output respects `NO_COLOR` and non-TTY environments. All output is also available as structured JSON.
+Fetches headers and reports security-header presence/values, caching and CORS fields. Supports redirect following and a compare subcommand. See the pinned [implementation](https://github.com/NickCirv/http-headers-check/blob/dd005cbe57e0241c6ddeb29ce7002cbe45cdf68c/index.js).
 
----
-<sub>Zero dependencies · Node ≥18 · MIT · by <a href="https://github.com/NickCirv">NickCirv</a></sub>
+
+<a id="install"></a>
+
+## Quickstart
+
+Node requirement from the inspected manifest: **`>=20`**. Requires a reachable endpoint; use compare URL1 URL2 to inspect environment differences.
+
+The following example is **source-inspected, not executed**. It uses a pinned checkout; npm package publication is not assumed. Replace project paths or provide the stated input fixtures before running it.
+
+```bash
+git clone https://github.com/NickCirv/http-headers-check.git
+cd http-headers-check
+git checkout dd005cbe57e0241c6ddeb29ce7002cbe45cdf68c
+npm install --ignore-scripts
+node index.js http://127.0.0.1:3000 --json
+```
+
+Dependencies are installed with lifecycle scripts disabled in this recipe. Read the package scripts before enabling any lifecycle step required by your environment.
+
+## Usage and reference
+
+`http-headers-check` | `hcheck` are the executable names declared by the package. [Command reference](docs/REFERENCE.md) covers source-backed options and entry points.
+
+| Control | Behavior in the inspected implementation |
+| --- | --- |
+| `--json` | Emit findings as JSON |
+| `--follow` | Follow redirects |
+| `--verbose` | Show full header values |
+| `compare URL_A URL_B` | Compare two header sets |
+
+## Limits and operational notes
+
+The grade reflects a rule set over headers, not penetration testing, TLS validation policy or a full browser audit. Different response paths can expose different headers.
+
+## Development
+
+No runtime checks were executed for this documentation review. The committed smoke test checks entrypoint JavaScript syntax; it does not exercise the command behavior.
+
+| Script | Declared command |
+| --- | --- |
+| `test` | `node --test` |
+
+Work from the pinned source, keep changes focused, and reproduce the affected behavior with a small fixture before proposing a change. Existing contribution and security policies remain authoritative where present.
+
+## Research and status
+
+[Research record](docs/RESEARCH.md) identifies the inspected revision, source evidence, documentation disposition and verification gaps. Static inspection supports the descriptions here; runtime behavior, dependency installation and current hosted services remain unverified.
+
+## License and author
+
+[License](https://github.com/NickCirv/http-headers-check/blob/dd005cbe57e0241c6ddeb29ce7002cbe45cdf68c/LICENSE)
+
+[Nicholas Ashkar](https://nicholashkar.com) · Applied AI, systems and consulting.
